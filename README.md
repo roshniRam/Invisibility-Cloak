@@ -20,6 +20,8 @@ First clone the repository or download its zip.
   ```sh
       python main.py     
 ```
+## Output
+<img src="https://user-images.githubusercontent.com/30633549/52882512-ebef7780-318d-11e9-97c0-ac6083d9012e.png" width="45%"> <img src="https://user-images.githubusercontent.com/30633549/52882529-ff9ade00-318d-11e9-8251-37e581d38586.png" width="45%">
 
 ## Dig deep
 Referred :- [Invisibility cloak using OpenCV by Kaustubh Sadekar](https://www.learnopencv.com/invisibility-cloak-using-color-detection-and-segmentation-with-opencv/?ck_subscriber_id=379301210)
