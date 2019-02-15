@@ -2,43 +2,49 @@ import cv2 as cv2
 import time
 import numpy as np
 
-# Creating a VideoCapture object
-# This will be used for image acquisition later in the code.
-cap = cv2.VideoCapture("video.mp4")
+# Reading the video
+video = cv2.VideoCapture("video.mp4")
  
-# We give some time for the camera to warm-up!
+
 time.sleep(3)
  
 background=0
+count = 0
  
 for i in range(30):
-  ret,background = cap.read()
- 
-# Laterally invert the image / flip the image.
+  ret,background = video.read()
+
 background = np.flip(background,axis=1)
-# im = cv2.resize(background,(500,500))
-# cv2.imshow('image',im)
-# cv2.waitKey(0)
+ 
+while (video.isOpened()):
+  ret, img = video.read()
+
+  if not ret:
+    break
+  
+  count+=1
+  img = np.flip(img,axis=1)
+
+  hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+  lowerRed = np.array([0,120,70])
+  upperRed = np.array([10,255,255])
+
+  mask1 = cv2.inRange(hsv, lowerRed, upperRed)
+
+  mask1 = cv2.morphologyEx(mask1, cv2.MORPH_OPEN, np.ones((3,3),np.uint8),iterations=2)
+
+  mask1 = cv2.dilate(mask1,np.ones((3,3),np.uint8),iterations = 1)
+
+  mask2 = cv2.bitwise_not(mask1)
+
+  res1 = cv2.bitwise_and(background, background, mask = mask1)
+  res2 = cv2.bitwise_and(img, img, mask = mask2)
+  finalOutput = cv2.addWeighted(res1,1,res2,1,0)
+
+  cv2.imshow('img', finalOutput)
+  k = cv2.waitKey(10)
+  if k == 27:
+    break
 
 
-# Capturing the live frame
-ret, img = cap.read()
- 
-# Laterally invert the image / flip the image
-img  = np.flip(img,axis=1)
- 
-# converting from BGR to HSV color space
-hsv = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
- 
-# Range for lower red
-lower_red = np.array([0,120,70])
-upper_red = np.array([10,255,255])
-mask1 = cv2.inRange(hsv, lower_red, upper_red)
- 
-# Range for upper range
-lower_red = np.array([170,120,70])
-upper_red = np.array([180,255,255])
-mask2 = cv2.inRange(hsv,lower_red,upper_red)
- 
-# Generating the final mask to detect red color
-mask1 = mask1+mask2
