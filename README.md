@@ -3,7 +3,7 @@
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
 
 ## About
-If you have watched Happy Potter you must know what invisibility cloak is. This code tries to do the same using color detection and segmentation.
+If you have watched Harry Potter you must know what invisibility cloak is. This code tries to do the same using color detection and segmentation.
 
 ## How it works?
 <ol>
